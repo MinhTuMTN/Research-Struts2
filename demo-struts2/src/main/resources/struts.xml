@@ -1,25 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-    <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
-    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.devMode" value="true" />
 
-    <include file="example.xml"/>
-
-    <package name="default" namespace="/" extends="struts-default">
-
-        <default-action-ref name="index"/>
+    <package name="example" extends="struts-default">
+        <default-action-ref name="index" />
 
         <action name="index">
-            <result type="redirectAction">
-                <param name="actionName">HelloWorld</param>
-                <param name="namespace">/example</param>
-            </result>
+            <result>/index.jsp</result>
         </action>
 
+        <action name="account" class="com.example.basic.action.AccountAction" method="execute">
+            <result name="success">/accountManagement.jsp</result>
+        </action>
+        <action name="addAccount" class="com.example.basic.action.AccountAction" method="addAccount">
+            <result name="success" type="redirectAction">account</result>
+        </action>
+        <action name="deleteAccount" class="com.example.basic.action.AccountAction" method="deleteAccount">
+            <result name="success" type="redirectAction">account</result>
+        </action>
+        <action name="restoreAccount" class="com.example.basic.action.AccountAction" method="restoreAccount">
+            <result name="success" type="redirectAction">account</result>
+        </action>
+        <action name="searchAccount" class="com.example.basic.action.AccountAction" method="searchAccount">
+            <result name="success">/accountManagement.jsp</result>
+        </action>
     </package>
-
-    <!-- Add addition packages and configuration here. -->
 </struts>
