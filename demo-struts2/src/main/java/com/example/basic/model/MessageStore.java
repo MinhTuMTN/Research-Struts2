@@ -1,5 +1,8 @@
 package com.example.basic.model;
 
+import lombok.Getter;
+
+@Getter
 public class MessageStore {
     private final String message;
 
@@ -7,7 +10,8 @@ public class MessageStore {
         message = "Hello Struts User";
     }
 
-    public String getMessage() {
-        return message;
+    public MessageStore(String message) {
+        this.message = message;
     }
+
 }

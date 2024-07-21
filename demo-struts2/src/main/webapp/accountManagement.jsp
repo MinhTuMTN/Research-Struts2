@@ -7,6 +7,12 @@
     <title>Hello World!</title>
 </head>
 <body>
+    <div>
+        <p>
+            <s:actionerror />
+        </p>
+    </div>
+    <h1>Hello <s:property value="#session.username" /> </h1>
     <section>
         <s:form action="addAccount" method="post">
             <s:textfield name="accountModel.username" label="Username" />

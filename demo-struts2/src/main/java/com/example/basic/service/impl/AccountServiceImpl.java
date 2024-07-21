@@ -79,6 +79,7 @@ public class AccountServiceImpl implements IAccountService {
 
             Account acc = account.get();
             acc.setDeleted(true);
+
             accountDAO.update(acc);
         });
     }
@@ -94,6 +95,20 @@ public class AccountServiceImpl implements IAccountService {
             Account acc = account.get();
             acc.setDeleted(false);
             accountDAO.update(acc);
+        });
+    }
+
+    @Override
+    public Account isPasswordMatch(String username, String password) {
+        TransactionManager tm = DbConfig.singleton().getTransactionManager();
+        return tm.required(() -> {
+            Optional<Account> account = accountDAO
+                    .selectByUsernameAndPassword(
+                            username,
+                            password
+                    );
+
+            return account.orElse(null);
         });
     }
 }

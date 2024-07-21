@@ -6,26 +6,70 @@
     <constant name="struts.devMode" value="true" />
 
     <package name="example" extends="struts-default">
+        <!--        Define interceptor stack-->
+        <interceptors>
+            <interceptor name="adminLogin" class="com.example.basic.interceptor.AuthorizationInterceptor">
+                <param name="role">admin</param>
+            </interceptor>
+            <interceptor name="userLogin" class="com.example.basic.interceptor.AuthorizationInterceptor">
+                <param name="role">user</param>
+            </interceptor>
+
+            <interceptor-stack name="adminStack">
+                <interceptor-ref name="adminLogin"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+
+            <interceptor-stack name="userStack">
+                <interceptor-ref name="userLogin"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
         <default-action-ref name="index" />
 
         <action name="index">
             <result>/index.jsp</result>
         </action>
 
+        <!--       Account Management actions-->
         <action name="account" class="com.example.basic.action.AccountAction" method="execute">
+            <interceptor-ref name="adminStack"/>
             <result name="success">/accountManagement.jsp</result>
+            <result name="unauthorized">/unauthorized.jsp</result>
         </action>
         <action name="addAccount" class="com.example.basic.action.AccountAction" method="addAccount">
+            <interceptor-ref name="adminStack"/>
             <result name="success" type="redirectAction">account</result>
+            <result name="unauthorized">/unauthorized.jsp</result>
         </action>
         <action name="deleteAccount" class="com.example.basic.action.AccountAction" method="deleteAccount">
+            <interceptor-ref name="adminStack"/>
             <result name="success" type="redirectAction">account</result>
+            <result name="unauthorized">/unauthorized.jsp</result>
         </action>
         <action name="restoreAccount" class="com.example.basic.action.AccountAction" method="restoreAccount">
+            <interceptor-ref name="adminStack"/>
             <result name="success" type="redirectAction">account</result>
+            <result name="unauthorized">/unauthorized.jsp</result>
         </action>
         <action name="searchAccount" class="com.example.basic.action.AccountAction" method="searchAccount">
+            <interceptor-ref name="adminStack"/>
             <result name="success">/accountManagement.jsp</result>
+            <result name="unauthorized">/unauthorized.jsp</result>
         </action>
+        <!--        End Account Management actions-->
+
+        <!--        Authenticated actions-->
+        <action name="login" class="com.example.basic.action.LoginAction" method="execute">
+            <result name="input">/login.jsp</result>
+        </action>
+        <action name="doLogin" class="com.example.basic.action.LoginAction" method="doLogin">
+            <result name="error" type="redirectAction">login</result>
+            <result name="success" type="redirectAction">index</result>
+        </action>
+        <action name="doLogout" class="com.example.basic.action.LoginAction" method="doLogout">
+            <result name="success" type="redirectAction">login</result>
+        </action>
+        <!--        End Authenticated actions-->
     </package>
 </struts>
