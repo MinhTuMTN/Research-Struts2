@@ -103,6 +103,9 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.46.v20220331</version>
                 <configuration>
+                    <httpConnector>
+                        <port>9091</port>
+                    </httpConnector>
                     <stopKey>CTRL+C</stopKey>
                     <stopPort>8999</stopPort>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
